@@ -1,0 +1,23 @@
+{
+  "name": "sprint-open-api-doc-managed",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "swagger-cli validate openapi.yaml"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cs-devops-bootcamp/sprint-open-api-doc-managed.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cs-devops-bootcamp/sprint-open-api-doc-managed/issues"
+  },
+  "homepage": "https://github.com/cs-devops-bootcamp/sprint-open-api-doc-managed#readme",
+  "dependencies": {
+    "@apidevtools/swagger-cli": "^4.0.4"
+  }
+}

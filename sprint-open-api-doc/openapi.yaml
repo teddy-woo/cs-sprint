@@ -1,0 +1,233 @@
+# 모든 주석은 지워도 무방합니다
+#
+# 공백과 들여쓰기, 각 항목의 이름에는 법칙이 있습니다. 이 법칙은 매우 중요합니다.
+# 이 법칙은 OpenAPI라고 불리며 https://swagger.io/specification/v3/#schema 여기에서 확인이 가능합니다.
+# tab 문자열을 이용하면 안됩니다. 공백은 반드시 whitespace이어야만 합니다.
+
+openapi: 3.0.0
+info:
+  description: '3팀 과제용 API 문서입니다.'
+  version: '1.0.0'
+  title: '3팀 과제용 블로그 API'
+components:
+  schemas:
+    Article:
+      type: object
+      required:
+        - title
+        - body
+        - author
+      properties:
+        title:
+          type: string
+          example: '3월 15일의 TIL'
+        body:
+          type: string
+          example: '오늘은 REST API를 배웠다!'
+        author:
+          type: string
+          example: 'kimcoding'
+    Delete:
+      type: object
+      required:
+        - author
+        - body
+      properties:
+        author:
+          type: string
+          example: 'system'
+        body:
+          type: string
+          example: '정상적으로 삭제되었습니다.'
+    Comment:
+      type: object
+      required:
+        - author
+        - body
+      properties:
+        author:
+          type: string
+          example: 'kimcoding'
+        body:
+          type: string
+          example: '열심히 공부하셨군요. 잘 보고 갑니다.'
+    Edit:
+      type: object
+      required:
+        - author
+        - body
+      properties:
+        author:
+          type: string
+          example: 'SYSTEM'
+        body:
+          type: string
+          example: '정상적으로 수정 되었습니다..'
+paths:
+  /article:
+    get:
+      description: '블로그 글 전체 조회'
+      responses:
+        '200':    # 당장은 성공 응답만 작성해도 무방합니다.
+          description: '성공 응답'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  article:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Article'
+    post:
+      description: '새 블로그 글 작성'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Article'
+      responses:
+        '200':
+          description: '성공 응답'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  article:
+                    $ref: '#/components/schemas/Article'
+    put:
+      description: '블로그 글 수정'
+      
+      responses:
+        '200':
+          description: '성공 응답'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  article:
+                    $ref: '#/components/schemas/Edit'
+    delete:
+      description: '블로그 글 삭제'
+      
+      responses:
+        '200':
+          description: '성공 응답'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  article:
+                    $ref: '#/components/schemas/Delete'
+  
+  /article/{articleId}: 
+    parameters:
+        - in: path
+          name: articleId
+          required: true
+          schema:
+            type: string
+          description: 'ID of the article to retrieve'
+    get:
+      description: '블로그 특정 글 조회'
+      responses:
+        '200':    
+          description: '성공 응답'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  article:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Article'
+      
+    
+  /comment:
+    get:
+      description: '댓글 전체 조회'
+      responses:
+        '200':    
+          description: '성공 응답'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  article:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+    post:
+      description: '새 댓글 작성'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '200':
+          description: '성공 응답'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  article:
+                    $ref: '#/components/schemas/Comment'
+    put:
+      description: '댓글 수정'
+      
+      responses:
+        '200':
+          description: '성공 응답'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  article:
+                    $ref: '#/components/schemas/Edit'
+    delete:
+      description: '특정 댓글 삭제'
+            
+      responses:
+        '200':
+          description: '성공 응답'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  article:
+                    $ref: '#/components/schemas/Delete'
+  /comment/{commentId}: 
+    parameters:
+        - in: path
+          name: commentId
+          required: true
+          schema:
+            type: string
+          description: 'ID of the article to retrieve'
+    get:
+      description: '특정 댓글 조회'
+      responses:
+        '200':    
+          description: '성공 응답'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  article:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Comment'
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/cs-kimcoding/blog/1.0.0
